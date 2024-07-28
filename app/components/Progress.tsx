@@ -2,7 +2,7 @@ export default function ModelLoadProgress({ percent, label }: { label: string, p
   return (
     <>
       <label htmlFor={label}>{label}</label>
-      <progress id={label} value={percent} max="100">{percent}%</progress>
+      <progress className="w-full" id={label} value={percent} max="100">{percent}%</progress>
     </>
   )
 }

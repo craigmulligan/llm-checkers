@@ -5,7 +5,7 @@ import { useLoadModel } from "../hooks/useLoadModel";
 import { LLMDynamicHandle } from "@lmstudio/sdk";
 import ErrorMessage from "./ErrorMessage";
 
-export default function ModelLoader({ onLoad, player }: { onLoad: (model: LLMDynamicHandle) => void, player: string }) {
+export default function ModelLoader({ onLoad, player, disabled }: { onLoad: (model: LLMDynamicHandle) => void, player: string, disabled: boolean }) {
   const [modelPath, setModelPath] = useState('')
   const { progress, model, error } = useLoadModel(modelPath)
 
@@ -17,11 +17,9 @@ export default function ModelLoader({ onLoad, player }: { onLoad: (model: LLMDyn
 
   return (
     <div className="flex flex-col">
-      <h2>{player}</h2>
-      <ModelSelect onChange={setModelPath} />
+      <ModelSelect onChange={setModelPath} disabled={disabled} />
       <ErrorMessage message={error} />
       {!!progress && !model && <ModelLoadProgress percent={progress} label={`Loading ${player} model`} />}
-      {model && <p>Model is loaded!</p>}
     </div>
   );
 }
