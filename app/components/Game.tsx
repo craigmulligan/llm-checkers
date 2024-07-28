@@ -21,7 +21,7 @@ export default function Game() {
       <ErrorMessage message={unloadError} />
       {error && <ErrorMessage message={error} />}
       <div className="flex w-full h-4/5">
-        <div className="w-1/5 flex flex-col justify-between">
+        <div className="w-1/5 flex flex-col">
           <h2>Black</h2>
           <ModelLoader onLoad={setBlackModel} disabled={isPlaying} player={"black"} />
           {turn === "BLACK" && isPlaying && <div><Loading /></div>}

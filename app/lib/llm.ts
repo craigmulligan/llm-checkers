@@ -1,4 +1,4 @@
-import { LLMChatHistoryMessage, LLMDynamicHandle } from "@lmstudio/sdk";
+import { LLMDynamicHandle } from "@lmstudio/sdk";
 import { CheckersBoard, Coords } from "./checkers";
 
 type LLMMove = {
