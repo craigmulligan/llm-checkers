@@ -11,9 +11,8 @@ import Loading from "./Loading";
 export default function Game() {
   const [blackModel, setBlackModel] = useState<LLMDynamicHandle>()
   const [whiteModel, setWhiteModel] = useState<LLMDynamicHandle>()
-  const { isPlaying, play, stop, board, turn, score, error } = useCheckers(blackModel, whiteModel)
+  const { isPlaying, play, stop, board, turn, score, error, winner } = useCheckers(blackModel, whiteModel)
   const { error: unloadError } = useUnloadModels(blackModel, whiteModel)
-
 
   return (
     <main className="text-center h-screen m-4">
@@ -30,6 +29,7 @@ export default function Game() {
         <div className="w-3/5 flex flex-col text-center justify-between">
           {(!blackModel || !whiteModel) && <p>Select each opponents model, then click play!</p>}
           {isPlaying && <div><pre>{board}</pre></div>}
+          {winner && <div><pre>The winner is {winner}</pre></div>}
           <div>{isPlaying ? <button onClick={stop}>stop</button> : <button onClick={play}>play</button>}</div>
         </div>
         <div className="w-1/5 flex flex-col justify-between">

@@ -10,7 +10,6 @@ export function useLoadModel(modelPath: string) {
 
   useEffect(() => {
     async function load() {
-      setProgress(0);
       setModel(undefined);
 
       let model;
@@ -28,6 +27,7 @@ export function useLoadModel(modelPath: string) {
         });
       }
 
+      setProgress(0);
       setModel(model);
     }
 

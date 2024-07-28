@@ -108,7 +108,6 @@ export async function generateMove(
     );
   }
 
-  console.log("sending message");
   const result = await model.respond(messages, {
     maxPredictedTokens: 1000,
     structured: { type: "json", jsonSchema },

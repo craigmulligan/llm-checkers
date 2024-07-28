@@ -17,7 +17,7 @@ export default function ModelLoader({ onLoad, player, disabled }: { onLoad: (mod
 
   return (
     <div className="flex flex-col">
-      <ModelSelect onChange={setModelPath} disabled={disabled} />
+      <ModelSelect onChange={setModelPath} disabled={disabled} label={`Select a model for ${player}`} />
       <ErrorMessage message={error} />
       {!!progress && !model && <ModelLoadProgress percent={progress} label={`Loading ${player} model`} />}
     </div>
