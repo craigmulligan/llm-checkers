@@ -54,7 +54,7 @@ export default function useUnloadModels(
     }
 
     unload();
-  }, [blackModel, whiteModel]);
+  }, [blackModel, whiteModel, client.llm]);
 
   return { error };
 }

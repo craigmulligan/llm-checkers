@@ -13,7 +13,7 @@ export default function ModelLoader({ onLoad, player, disabled }: { onLoad: (mod
     if (model) {
       onLoad(model)
     }
-  }, [model])
+  }, [model, onLoad])
 
   return (
     <div className="flex flex-col">
