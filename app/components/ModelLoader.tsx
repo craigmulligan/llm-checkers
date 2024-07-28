@@ -17,6 +17,7 @@ export default function ModelLoader({ onLoad, player }: { onLoad: (model: LLMDyn
 
   return (
     <div className="flex flex-col">
+      <h2>{player}</h2>
       <ModelSelect onChange={setModelPath} />
       <ErrorMessage message={error} />
       {!!progress && !model && <ModelLoadProgress percent={progress} label={`Loading ${player} model`} />}

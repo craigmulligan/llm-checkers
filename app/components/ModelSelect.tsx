@@ -16,7 +16,7 @@ export default function ModelSelect({ onChange }: { onChange: (modelPath: string
 
   return (
     <div>
-      <select className="text-black" onChange={(evt) => onChange(evt.target.value)}>
+      <select className="text-black w-full" onChange={(evt) => onChange(evt.target.value)}>
         <option value="" disabled>Select a model</option>
         {data?.map((model) => (
           <option key={model.path} value={model.path}>

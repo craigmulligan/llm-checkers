@@ -21,7 +21,7 @@ export default function useUnloadModels(
         m.identifier.startsWith("llm-checkers"),
       );
 
-      console.log(
+      console.info(
         "attempting to unload models",
         checkersLoadedModels?.map((m) => m?.path),
       );
