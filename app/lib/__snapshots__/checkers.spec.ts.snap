@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`checkers > Should be able to capture apponents piece 1`] = `
+"0 1 2 3 4 5 6 7
+. W . W . W . W  0
+W . W . W . W .  1
+. W . . . W . W  2
+. . . . . . . .  3
+. . . B . B . .  4
+W . . . . . B .  5
+. B . B . B . B  6
+B . B . B . B .  7"
+`;
+
+exports[`checkers > should handle a basic layout and move 1`] = `
+"0 1 2 3 4 5 6 7
+. W . W . W . W  0
+W . W . W . W .  1
+. W . W . W . W  2
+. . . . . . . .  3
+. B . . . . . .  4
+. . B . B . B .  5
+. B . B . B . B  6
+B . B . B . B .  7"
+`;
