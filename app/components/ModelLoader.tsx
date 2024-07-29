@@ -15,9 +15,17 @@ export default function ModelLoader({ onLoad, player, disabled }: { onLoad: (mod
     }
   }, [model, onLoad])
 
+  useEffect(() => {
+    if (error) {
+      // error loading
+      // model (unset it.)
+      setModelPath('')
+    }
+  }, [error])
+
   return (
     <div className="flex flex-col">
-      <ModelSelect onChange={setModelPath} disabled={disabled} label={`Select a model for ${player}`} />
+      <ModelSelect value={modelPath} onChange={setModelPath} disabled={disabled} label={`Select a model for ${player}`} />
       <ErrorMessage message={error} />
       {!!progress && !model && <ModelLoadProgress percent={progress} label={`Loading ${player} model`} />}
     </div>

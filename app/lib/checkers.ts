@@ -123,8 +123,11 @@ export class CheckersBoard {
   getLegalMove(
     coords: Coords,
     direction: number[],
-    capture: boolean = false,
+    startCoords?: Coords,
   ): Move | undefined {
+    // BUG!
+    // Should be returing the start coords
+    // in from.
     const [x, y] = coords;
     const [dx, dy] = direction;
     const newX = x + dx;
@@ -135,15 +138,15 @@ export class CheckersBoard {
 
       if (cell === null) {
         return {
-          from: coords,
+          from: startCoords || coords,
           to: [newX, newY],
-          capture: capture ? [x, y] : undefined,
+          capture: startCoords ? [x, y] : undefined,
         };
       }
 
       // Check piece is the oppenents
       if (this.getPlayerFromCell(cell) != this.turn) {
-        return this.getLegalMove([newX, newY], direction, true);
+        return this.getLegalMove([newX, newY], direction, coords);
       }
     }
   }

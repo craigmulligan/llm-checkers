@@ -19,12 +19,18 @@ export function useLoadModel(modelPath: string) {
         });
       } catch (err) {
         // not loaded
-        model = await client.llm.load(modelPath, {
-          identifier: `llm-checkers-${modelPath}`,
-          onProgress: (n) => {
-            setProgress(n * 100);
-          },
-        });
+        try {
+          model = await client.llm.load(modelPath, {
+            identifier: `llm-checkers-${modelPath}`,
+            onProgress: (n) => {
+              setProgress(n * 100);
+            },
+          });
+        } catch (err) {
+          if (err instanceof Error) {
+            setError(err.message);
+          }
+        }
       }
 
       setProgress(0);
@@ -32,15 +38,8 @@ export function useLoadModel(modelPath: string) {
     }
 
     if (modelPath) {
-      try {
-        load();
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-          setModel(undefined);
-          setProgress(0);
-        }
-      }
+      setError("");
+      load();
     }
   }, [client, modelPath]);
 

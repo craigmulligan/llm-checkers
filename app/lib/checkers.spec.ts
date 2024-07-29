@@ -63,11 +63,15 @@ describe("checkers", () => {
     const checkers = new CheckersBoard();
     checkers.board = board as Cell[][];
 
-    // TODO: This shouldn't be just for this single
-    // coord but the whole board.
     checkers.turn = "WHITE";
-    const legalMoves = checkers.getLegalMoves([2, 3]);
-    expect(legalMoves).toStrictEqual([[0, 5]]);
+    const legalMoves = checkers.possibleMoves();
+    expect(legalMoves).toStrictEqual([
+      {
+        from: [2, 3],
+        to: [0, 5],
+        capture: [1, 4],
+      },
+    ]);
   });
 
   test("Should be able to repeat a turn after capture if another capture is available", () => {

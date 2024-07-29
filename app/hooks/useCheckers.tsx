@@ -25,6 +25,8 @@ export default function useCheckers(
   }, [])
 
   useEffect(() => {
+    let mounted = true;
+
     async function play() {
       if (!blackModel || !whiteModel) {
         setError("Both play models must be loaded")
@@ -38,7 +40,7 @@ export default function useCheckers(
       const checkers = new CheckersBoard();
       setBoard(checkers.printBoard())
 
-      while (!gameWinner && isPlaying) {
+      while (!gameWinner && mounted) {
         const model = checkers.turn === "BLACK" ? blackModel : whiteModel
         const move = await generateMove(model, checkers, moveError);
 
@@ -80,6 +82,7 @@ export default function useCheckers(
 
     return () => {
       // Reset the defaults.
+      mounted = false
       setBoard('')
       setTurn('BLACK')
       setScore({ BLACK: 0, WHITE: 0 })
