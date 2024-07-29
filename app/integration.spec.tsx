@@ -12,13 +12,12 @@ import { act } from "react";
 import { LLMChatHistory } from "@lmstudio/sdk";
 
 class RandomMoveModel {
-  identifier: string
-  path: string
-
+  identifier: string;
+  path: string;
 
   constructor(modelPath: string, identifier: string) {
-    this.path = modelPath
-    this.identifier = identifier
+    this.path = modelPath;
+    this.identifier = identifier;
   }
   // This is a model that selects a random move.
   async respond(messages: LLMChatHistory) {
@@ -42,28 +41,26 @@ class RandomMoveModel {
       content: JSON.stringify({
         from: [0, 0],
         to: [0, 0],
-      })
-    }
-
+      }),
+    };
   }
 
   async getModelInfo() {
     return {
       path: this.path,
-      identifier: this.identifier
-    }
+      identifier: this.identifier,
+    };
   }
 }
-const loadedModels: RandomMoveModel[] = []
+const loadedModels: RandomMoveModel[] = [];
 
 // Confetti doesn't like jsdom
-vi.mock('js-confetti')
+vi.mock("js-confetti");
 
 // Mock the Client module
 vi.mock("@lmstudio/sdk", () => {
   return {
     LMStudioClient: vi.fn().mockImplementation(() => {
-
       return {
         system: {
           listDownloadedModels: vi.fn().mockResolvedValue([
@@ -76,29 +73,31 @@ vi.mock("@lmstudio/sdk", () => {
             {
               path: "model-3.gguf",
             },
-
           ]),
         },
         llm: {
           load: vi
             .fn()
-            .mockImplementation(async (modelPath, { onProgress, identifier }) => {
-              for (let i = 0; i <= 100; i++) {
-                await new Promise((res) => setTimeout(res, 1));
-                onProgress(i / 100);
-              }
+            .mockImplementation(
+              async (modelPath, { onProgress, identifier }) => {
+                for (let i = 0; i <= 100; i++) {
+                  await new Promise((res) => setTimeout(res, 1));
+                  onProgress(i / 100);
+                }
 
+                const model = new RandomMoveModel(modelPath, identifier);
 
-              const model = new RandomMoveModel(modelPath, identifier);
-
-              loadedModels.push(model)
-              return model
-            }),
+                loadedModels.push(model);
+                return model;
+              },
+            ),
           listLoaded: vi.fn().mockResolvedValue(loadedModels),
           unload: vi.fn().mockImplementation(async (identifier) => {
-            const index = loadedModels.findIndex((m) => m.identifier === identifier)
-            loadedModels.splice(index, 1)
-          })
+            const index = loadedModels.findIndex(
+              (m) => m.identifier === identifier,
+            );
+            loadedModels.splice(index, 1);
+          }),
         },
       };
     }),
@@ -126,16 +125,22 @@ test("Integration test", async () => {
     await waitForElementToBeRemoved(progressEl);
   }
 
-  await loadModel("BLACK", 'model-1.gguf');
+  await loadModel("BLACK", "model-1.gguf");
   // load an model and make sure it's unloaded
-  await loadModel("WHITE", 'model-2.gguf');
+  await loadModel("WHITE", "model-2.gguf");
 
-  expect(loadedModels.map(m => m.path)).toEqual(['model-1.gguf', 'model-2.gguf'])
+  expect(loadedModels.map((m) => m.path)).toEqual([
+    "model-1.gguf",
+    "model-2.gguf",
+  ]);
 
-  await loadModel("WHITE", 'model-3.gguf');
+  await loadModel("WHITE", "model-3.gguf");
 
   // Check model-2 has been unloaded.
-  expect(loadedModels.map(m => m.path)).toEqual(['model-1.gguf', 'model-3.gguf'])
+  expect(loadedModels.map((m) => m.path)).toEqual([
+    "model-1.gguf",
+    "model-3.gguf",
+  ]);
 
   // Now both models are loaded.
   const playButton = await screen.findByText("play");

@@ -5,29 +5,47 @@ import { useLoadModel } from "../hooks/useLoadModel";
 import { LLMDynamicHandle } from "@lmstudio/sdk";
 import ErrorMessage from "./ErrorMessage";
 
-export default function ModelLoader({ onLoad, player, disabled }: { onLoad: (model: LLMDynamicHandle) => void, player: string, disabled: boolean }) {
-  const [modelPath, setModelPath] = useState('')
-  const { progress, model, error } = useLoadModel(modelPath)
+export default function ModelLoader({
+  onLoad,
+  player,
+  disabled,
+}: {
+  onLoad: (model: LLMDynamicHandle) => void;
+  player: string;
+  disabled: boolean;
+}) {
+  const [modelPath, setModelPath] = useState("");
+  const { progress, model, error } = useLoadModel(modelPath);
 
   useEffect(() => {
     if (model) {
-      onLoad(model)
+      onLoad(model);
     }
-  }, [model, onLoad])
+  }, [model, onLoad]);
 
   useEffect(() => {
     if (error) {
       // error loading
       // model (unset it.)
-      setModelPath('')
+      setModelPath("");
     }
-  }, [error])
+  }, [error]);
 
   return (
     <div className="flex flex-col">
-      <ModelSelect value={modelPath} onChange={setModelPath} disabled={disabled} label={`Select a model for ${player}`} />
+      <ModelSelect
+        value={modelPath}
+        onChange={setModelPath}
+        disabled={disabled}
+        label={`Select a model for ${player}`}
+      />
       <ErrorMessage message={error} />
-      {!!progress && !model && <ModelLoadProgress percent={progress} label={`Loading ${player} model`} />}
+      {!!progress && !model && (
+        <ModelLoadProgress
+          percent={progress}
+          label={`Loading ${player} model`}
+        />
+      )}
     </div>
   );
 }

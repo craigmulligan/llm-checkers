@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest ."
+    "test": "vitest .",
+    "fmt-check": "prettier --check --no-config .",
+    "fmt": "prettier --write --no-config ."
   },
   "dependencies": {
     "@lmstudio/sdk": "^0.0.12",
@@ -30,6 +32,7 @@
     "eslint-config-next": "14.2.5",
     "jsdom": "^24.1.1",
     "postcss": "^8",
+    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
     "vitest": "^2.0.4"

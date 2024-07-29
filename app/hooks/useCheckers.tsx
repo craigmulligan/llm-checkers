@@ -4,55 +4,54 @@ import { useCallback, useEffect, useState } from "react";
 import { CheckersBoard, DeadLockError, Player, Score } from "../lib/checkers";
 import { generateMove, MoveError } from "../lib/llm";
 
-
 export default function useCheckers(
   blackModel: LLMDynamicHandle | undefined,
   whiteModel: LLMDynamicHandle | undefined,
 ) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [score, setScore] = useState<Score>({ BLACK: 0, WHITE: 0 })
-  const [turn, setTurn] = useState<Player>('BLACK')
-  const [board, setBoard] = useState('')
-  const [error, setError] = useState('')
-  const [winner, setWinner] = useState<Player | undefined>()
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [score, setScore] = useState<Score>({ BLACK: 0, WHITE: 0 });
+  const [turn, setTurn] = useState<Player>("BLACK");
+  const [board, setBoard] = useState("");
+  const [error, setError] = useState("");
+  const [winner, setWinner] = useState<Player | undefined>();
 
   const play = useCallback(() => {
-    setIsPlaying(true)
-  }, [])
+    setIsPlaying(true);
+  }, []);
 
   const stop = useCallback(() => {
-    setIsPlaying(false)
-  }, [])
+    setIsPlaying(false);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
 
     async function play() {
       if (!blackModel || !whiteModel) {
-        setError("Both play models must be loaded")
-        setIsPlaying(false)
-        return
+        setError("Both play models must be loaded");
+        setIsPlaying(false);
+        return;
       }
 
-      let gameWinner: Player | undefined
+      let gameWinner: Player | undefined;
       let moveError: MoveError | undefined;
 
       const checkers = new CheckersBoard();
-      setBoard(checkers.printBoardPretty())
+      setBoard(checkers.printBoardPretty());
 
       while (!gameWinner && mounted) {
-        const model = checkers.turn === "BLACK" ? blackModel : whiteModel
+        const model = checkers.turn === "BLACK" ? blackModel : whiteModel;
         const move = await generateMove(model, checkers, moveError);
 
         try {
           checkers.movePiece(move.from, move.to);
 
-          setScore(checkers.score)
-          setTurn(checkers.turn)
-          setBoard(checkers.printBoardPretty())
+          setScore(checkers.score);
+          setTurn(checkers.turn);
+          setBoard(checkers.printBoardPretty());
 
           if (checkers.hasWon()) {
-            gameWinner = checkers.turn
+            gameWinner = checkers.turn;
             break;
           }
 
@@ -61,7 +60,7 @@ export default function useCheckers(
           if (err instanceof DeadLockError) {
             // Opponent wins no possible turns
             // for current turn
-            gameWinner = checkers.turn === "BLACK" ? "WHITE" : "BLACK"
+            gameWinner = checkers.turn === "BLACK" ? "WHITE" : "BLACK";
             break;
           }
 
@@ -72,23 +71,23 @@ export default function useCheckers(
         }
       }
 
-      setWinner(gameWinner)
-      setIsPlaying(false)
+      setWinner(gameWinner);
+      setIsPlaying(false);
     }
 
     if (isPlaying) {
-      setError('')
-      play()
+      setError("");
+      play();
     }
 
     return () => {
       // Reset the defaults.
-      mounted = false
-      setBoard('')
-      setTurn('BLACK')
-      setScore({ BLACK: 0, WHITE: 0 })
-    }
-  }, [isPlaying, blackModel, whiteModel])
+      mounted = false;
+      setBoard("");
+      setTurn("BLACK");
+      setScore({ BLACK: 0, WHITE: 0 });
+    };
+  }, [isPlaying, blackModel, whiteModel]);
 
-  return { isPlaying, play, stop, score, turn, board, error, winner }
+  return { isPlaying, play, stop, score, turn, board, error, winner };
 }
