@@ -16,7 +16,7 @@ export default function ModelSelect({ onChange, disabled, label: labelText }: { 
 
   return (
     <div>
-      <label htmlFor={labelText}>{labelText}</label>
+      <label hidden={true} htmlFor={labelText}>{labelText}</label>
       <select id={labelText} className="text-black w-full" onChange={(evt) => onChange(evt.target.value)} defaultValue={""} disabled={disabled}>
         <option value="" disabled>Select a model</option>
         {data?.map((model) => (

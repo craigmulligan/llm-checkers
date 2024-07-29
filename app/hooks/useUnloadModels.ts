@@ -21,10 +21,6 @@ export default function useUnloadModels(
         m.identifier.startsWith("llm-checkers"),
       );
 
-      console.info(
-        "attempting to unload models",
-        checkersLoadedModels?.map((m) => m?.path),
-      );
       // To conserve memory
       // we want to automatically unload any of the models
       // that are currently not used.
@@ -42,9 +38,15 @@ export default function useUnloadModels(
             return !usedModelsInfo.some((m) => m?.path === d.path);
           });
 
-          await Promise.all(
-            unusedModels.map((m) => client.llm.unload(m.identifier)),
-          );
+          if (unusedModels.length) {
+            await Promise.all(
+              unusedModels.map((m) => client.llm.unload(m.identifier)),
+            );
+            console.info(
+              "Unloaded models",
+              unusedModels.map((m) => m.path),
+            );
+          }
         } catch (err) {
           if (err instanceof Error) {
             setError(err.message);

@@ -42,6 +42,9 @@ class RandomMoveModel {
 }
 const loadedModels: RandomMoveModel[] = []
 
+// Confetti doesn't like jsdom
+vi.mock('js-confetti')
+
 // Mock the Client module
 vi.mock("@lmstudio/sdk", () => {
   return {

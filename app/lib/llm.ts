@@ -108,10 +108,12 @@ export async function generateMove(
     );
   }
 
+  console.log("sending message");
   const result = await model.respond(messages, {
-    maxPredictedTokens: 1000,
+    maxPredictedTokens: 200,
     structured: { type: "json", jsonSchema },
   });
+  console.log("message received", JSON.stringify(result));
 
   try {
     return JSON.parse(result.content) as LLMMove;

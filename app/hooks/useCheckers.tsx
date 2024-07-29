@@ -1,7 +1,7 @@
 import { LLMDynamicHandle } from "@lmstudio/sdk";
 import { useCallback, useEffect, useState } from "react";
 
-import { CheckersBoard, DeadLockError, Player, Score } from "../lib/checkers";
+import { CheckersBoard, DeadLockError, Move, Player, Score } from "../lib/checkers";
 import { generateMove, MoveError } from "../lib/llm";
 
 
@@ -38,7 +38,7 @@ export default function useCheckers(
       const checkers = new CheckersBoard();
       setBoard(checkers.printBoard())
 
-      while (!gameWinner) {
+      while (!gameWinner && isPlaying) {
         const model = checkers.turn === "BLACK" ? blackModel : whiteModel
         const move = await generateMove(model, checkers, moveError);
 
