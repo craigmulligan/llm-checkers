@@ -47,8 +47,8 @@ export async function generateMove(
         The board uses the following symbols to represent the pieces on the board: 
           - "W": White man 
           - "B": Black man 
-          - "⛁": Black king
-          - "⛃": White King
+          - "⛁": White king
+          - "⛃": Black King
           - ".": Empty square
 
         You must respond with the to and from coordinates for your next move in the form of:

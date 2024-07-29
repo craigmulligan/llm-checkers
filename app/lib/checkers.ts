@@ -235,10 +235,10 @@ export class CheckersBoard {
         }
       });
     } else {
-      // check first row for blacks
+      // Check last row for WHITES
       this.board[this.board.length - 1].map((v, i) => {
         if (v === "W") {
-          this.setCell([i, 0], "⛁");
+          this.setCell([i, this.board.length - 1], "⛁");
         }
       });
     }

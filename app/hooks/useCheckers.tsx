@@ -1,7 +1,7 @@
 import { LLMDynamicHandle } from "@lmstudio/sdk";
 import { useCallback, useEffect, useState } from "react";
 
-import { CheckersBoard, DeadLockError, Move, Player, Score } from "../lib/checkers";
+import { CheckersBoard, DeadLockError, Player, Score } from "../lib/checkers";
 import { generateMove, MoveError } from "../lib/llm";
 
 

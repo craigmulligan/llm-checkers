@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "LLM Checkers",
-  description: "An adverserial benchmark for local LLM's",
+  description: "A game play benchmark for local LLM's",
 };
 
 export default function RootLayout({

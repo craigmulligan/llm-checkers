@@ -109,8 +109,8 @@ describe("checkers", () => {
       [null, null, "W", null, null, null, null, null],
       [null, null, null, null, null, "B", null, null],
       [null, null, null, null, "B", null, "B", null],
-      [null, "B", null, "B", null, "B", null, "B"],
-      ["B", null, "B", null, "B", null, "B", null],
+      [null, "B", null, "W", null, "B", null, "B"],
+      ["B", null, "B", null, null, null, "B", null],
     ];
 
     const checkers = new CheckersBoard();
@@ -122,6 +122,11 @@ describe("checkers", () => {
     checkers.movePiece([4, 1], [5, 0]);
 
     expect(checkers.getCell([5, 0])).toEqual("⛃");
+
+    // now check for white.
+    expect(checkers.turn).toBe("WHITE");
+    checkers.movePiece([3, 6], [4, 7]);
+    expect(checkers.getCell([4, 7])).toBe("⛁");
   });
 
   test("Should allow king pieces to move back and forward", () => {
