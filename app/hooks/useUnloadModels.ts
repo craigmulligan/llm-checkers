@@ -1,6 +1,7 @@
 import useClient from "./useClient";
 import { LLMDynamicHandle } from "@lmstudio/sdk";
 import { useEffect, useState } from "react";
+import logger from "../lib/logger";
 
 export default function useUnloadModels(
   blackModel: LLMDynamicHandle | undefined,
@@ -42,7 +43,7 @@ export default function useUnloadModels(
             await Promise.all(
               unusedModels.map((m) => client.llm.unload(m.identifier)),
             );
-            console.info(
+            logger.info(
               "Unloaded models",
               unusedModels.map((m) => m.path),
             );

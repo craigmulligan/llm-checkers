@@ -1,5 +1,6 @@
 import { LLMDynamicHandle } from "@lmstudio/sdk";
 import { CheckersBoard, Coords } from "./checkers";
+import logger from "./logger";
 
 type LLMMove = {
   to: Coords;
@@ -74,7 +75,7 @@ export async function generateMove(
   const possibleMoves = checkers.possibleMoves();
 
   if (error) {
-    console.log(JSON.stringify(possibleMoves));
+    logger.debug(JSON.stringify(possibleMoves));
     messages.push(
       ...[
         {
@@ -108,17 +109,17 @@ export async function generateMove(
     );
   }
 
-  console.log("sending message");
+  logger.debug("sending message");
   const result = await model.respond(messages, {
     maxPredictedTokens: 200,
     structured: { type: "json", jsonSchema },
   });
-  console.log("message received", JSON.stringify(result));
+  logger.debug("message received", JSON.stringify(result));
 
   try {
     return JSON.parse(result.content) as LLMMove;
   } catch (err) {
-    console.log("Invalid JSON", err, result.content);
+    logger.warn(err, result.content);
     throw err;
   }
 }
