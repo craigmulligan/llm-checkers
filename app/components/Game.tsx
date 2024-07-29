@@ -55,23 +55,25 @@ export default function Game() {
       {(!bothModelsLoaded) && <p>Select each opponents model, then click play!</p>}
       <ErrorMessage message={unloadError} />
       {error && <ErrorMessage message={error} />}
-      <div className="flex w-full h-4/5 mt-4 text-center">
+      <div className="flex w-full mt-4 text-center">
         <div className="w-1/5 flex flex-col">
-          <h2>Black</h2>
-          <ModelLoader onLoad={setBlackModel} disabled={isPlaying} player={"black"} />
+          <div className="flex space-x-2 items-baseline justify-center">{turn === "BLACK" && isPlaying && <Loading />}<h2 className="font-bold text-2xl mb-2">Black</h2></div>
+          <div className="mb-2">
+            <ModelLoader onLoad={setBlackModel} disabled={isPlaying} player={"black"} />
+          </div>
           {isPlaying && <Score score={score.BLACK} />}
-          {turn === "BLACK" && isPlaying && <div className="flex justify-evenly items-center"><Loading /> Thinking...</div>}
         </div>
         <div className="w-3/5 flex flex-col text-center">
           <div className="mb-4">{isPlaying ? <button className="bg-white text-black px-6 py-1 rounded-sm" onClick={stop}>stop</button> : <button className="bg-white text-black px-6 py-1 rounded-sm" disabled={!bothModelsLoaded} onClick={play}>play</button>}</div>
-          {isPlaying && <div><pre>{board}</pre></div>}
-          {winner && <div><pre>The winner is {winner}!</pre></div>}
+          {isPlaying && <div><pre><code dangerouslySetInnerHTML={{ __html: board }}></code></pre></div>}
+          {winner && <div className="font-bold text-2xl">The winner is {winner}!</div>}
         </div>
         <div className="w-1/5 flex flex-col text-center">
-          <h2>White</h2>
-          <ModelLoader onLoad={setWhiteModel} player={"white"} disabled={isPlaying} />
+          <div className="flex space-x-2 items-baseline justify-center">{turn === "WHITE" && isPlaying && <Loading />}<h2 className="font-bold text-2xl mb-2">WHITE</h2></div>
+          <div className="mb-2">
+            <ModelLoader onLoad={setWhiteModel} player={"white"} disabled={isPlaying} />
+          </div>
           {isPlaying && <Score score={score.WHITE} />}
-          {turn === "WHITE" && isPlaying && <div className="flex justify-evenly items-center"><Loading /> Thinking...</div>}
         </div>
       </div>
     </main>

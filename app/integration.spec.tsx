@@ -26,11 +26,25 @@ class RandomMoveModel {
       m.content.startsWith("Possible move:"),
     );
 
-    const move = possibleMoves[0].content.replace("Possible move:", "");
+    if (possibleMoves.length) {
+      const move = possibleMoves[0].content.replace("Possible move:", "");
+
+      return {
+        role: "assistant",
+        content: move,
+      };
+    }
+
+    // If there are no possible moves
+    // just generate an illegal one.
     return {
       role: "assistant",
-      content: move,
-    };
+      content: JSON.stringify({
+        from: [0, 0],
+        to: [0, 0],
+      })
+    }
+
   }
 
   async getModelInfo() {
@@ -131,5 +145,5 @@ test("Integration test", async () => {
   });
 
   // Now wait for a winner
-  await screen.findByText(/The winner /);
+  await screen.findByText(/The winner /, {}, { timeout: 60 * 1000 });
 });

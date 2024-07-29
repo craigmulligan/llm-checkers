@@ -38,7 +38,7 @@ export default function useCheckers(
       let moveError: MoveError | undefined;
 
       const checkers = new CheckersBoard();
-      setBoard(checkers.printBoard())
+      setBoard(checkers.printBoardPretty())
 
       while (!gameWinner && mounted) {
         const model = checkers.turn === "BLACK" ? blackModel : whiteModel
@@ -49,7 +49,7 @@ export default function useCheckers(
 
           setScore(checkers.score)
           setTurn(checkers.turn)
-          setBoard(checkers.printBoard())
+          setBoard(checkers.printBoardPretty())
 
           if (checkers.hasWon()) {
             gameWinner = checkers.turn
@@ -73,6 +73,7 @@ export default function useCheckers(
       }
 
       setWinner(gameWinner)
+      setIsPlaying(false)
     }
 
     if (isPlaying) {

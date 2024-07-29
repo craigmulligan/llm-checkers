@@ -209,7 +209,7 @@ export class CheckersBoard {
     this.setCell(fromCoords, null);
 
     // Upgrade any kings
-    this.upgradeKings();
+    this.upgradeKing(toCoords);
 
     if (this.hasWon()) {
       // Current turn has one.
@@ -224,24 +224,25 @@ export class CheckersBoard {
     }
   }
 
-  upgradeKings() {
+  upgradeKing(to: Coords) {
     // if any of W or B are on the opponents side of the board
     // they are upgraded to Kings
-    if (this.turn === "BLACK") {
-      // check first row for blacks
-      this.board[0].map((v, i) => {
-        if (v === "B") {
-          this.setCell([i, 0], "⛃");
-        }
-      });
-    } else {
-      // Check last row for WHITES
-      this.board[this.board.length - 1].map((v, i) => {
-        if (v === "W") {
-          this.setCell([i, this.board.length - 1], "⛁");
-        }
-      });
+    const [x, y] = to;
+
+    if (this.turn === "BLACK" && y === 0) {
+      this.setCell([x, y], "⛃");
     }
+
+    if (this.turn === "WHITE" && y === this.board.length - 1) {
+      this.setCell([x, y], "⛁");
+    }
+  }
+
+  printBoardPretty(): string {
+    // Prints the board without coordinate markers
+    return this.board
+      .map((row) => row.map((cell) => (cell === null ? "." : cell)).join(" "))
+      .join("\n");
   }
 
   printBoard(): string {
