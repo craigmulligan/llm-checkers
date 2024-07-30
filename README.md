@@ -15,11 +15,13 @@ npx lmstudio install-cli
 ```
 
 Then make lmstudio server is running.
+
 ```
 lms server start
 ```
 
 Then install this apps dependencies and run it:
+
 ```
 npm i && npm run dev
 ```
