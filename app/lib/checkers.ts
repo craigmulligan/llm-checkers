@@ -125,9 +125,6 @@ export class CheckersBoard {
     direction: number[],
     startCoords?: Coords,
   ): Move | undefined {
-    // BUG!
-    // Should be returing the start coords
-    // in from.
     const [x, y] = coords;
     const [dx, dy] = direction;
     const newX = x + dx;
@@ -144,8 +141,8 @@ export class CheckersBoard {
         };
       }
 
-      // Check piece is the oppenents
-      if (this.getPlayerFromCell(cell) != this.turn) {
+      // Check piece is the opponents
+      if (this.getPlayerFromCell(cell) != this.turn && !startCoords) {
         return this.getLegalMove([newX, newY], direction, coords);
       }
     }

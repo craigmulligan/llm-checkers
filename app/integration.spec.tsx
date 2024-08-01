@@ -150,5 +150,5 @@ test("Integration test", async () => {
   });
 
   // Now wait for a winner
-  await screen.findByText(/The winner /, {}, { timeout: 60 * 1000 });
+  await screen.findByText(/The winner /);
 });
