@@ -14,13 +14,13 @@ To activate the CLI run:
 npx lmstudio install-cli
 ```
 
-Then make lmstudio server is running.
+Then make sure lmstudio's server is running.
 
 ```
 lms server start
 ```
 
-Then install llm-checkers dependencies and run it:
+Next install llm-checkers dependencies and run it:
 
 ```
 npm i && npm run dev
